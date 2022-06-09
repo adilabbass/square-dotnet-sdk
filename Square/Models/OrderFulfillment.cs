@@ -28,6 +28,7 @@ namespace Square.Models
         /// <param name="metadata">metadata.</param>
         /// <param name="pickupDetails">pickup_details.</param>
         /// <param name="shipmentDetails">shipment_details.</param>
+        /// <param name="deliveryDetails">delivery_details.</param>
         public OrderFulfillment(
             string uid = null,
             string type = null,
@@ -36,7 +37,8 @@ namespace Square.Models
             IList<Models.OrderFulfillmentFulfillmentEntry> entries = null,
             IDictionary<string, string> metadata = null,
             Models.OrderFulfillmentPickupDetails pickupDetails = null,
-            Models.OrderFulfillmentShipmentDetails shipmentDetails = null)
+            Models.OrderFulfillmentShipmentDetails shipmentDetails = null,
+            Models.OrderFulfillmentDeliveryDetails deliveryDetails = null)
         {
             this.Uid = uid;
             this.Type = type;
@@ -46,6 +48,7 @@ namespace Square.Models
             this.Metadata = metadata;
             this.PickupDetails = pickupDetails;
             this.ShipmentDetails = shipmentDetails;
+            this.DeliveryDetails = deliveryDetails;
         }
 
         /// <summary>
@@ -117,6 +120,9 @@ namespace Square.Models
         [JsonProperty("shipment_details", NullValueHandling = NullValueHandling.Ignore)]
         public Models.OrderFulfillmentShipmentDetails ShipmentDetails { get; }
 
+        [JsonProperty("delivery_details", NullValueHandling = NullValueHandling.Ignore)]
+        public Models.OrderFulfillmentDeliveryDetails DeliveryDetails { get; }
+
         /// <inheritdoc/>
         public override string ToString()
         {
@@ -148,7 +154,8 @@ namespace Square.Models
                 ((this.Entries == null && other.Entries == null) || (this.Entries?.Equals(other.Entries) == true)) &&
                 ((this.Metadata == null && other.Metadata == null) || (this.Metadata?.Equals(other.Metadata) == true)) &&
                 ((this.PickupDetails == null && other.PickupDetails == null) || (this.PickupDetails?.Equals(other.PickupDetails) == true)) &&
-                ((this.ShipmentDetails == null && other.ShipmentDetails == null) || (this.ShipmentDetails?.Equals(other.ShipmentDetails) == true));
+                ((this.ShipmentDetails == null && other.ShipmentDetails == null) || (this.ShipmentDetails?.Equals(other.ShipmentDetails) == true)) &&
+                ((this.DeliveryDetails == null && other.DeliveryDetails == null) || (this.DeliveryDetails?.Equals(other.DeliveryDetails) == true));
         }
         
         /// <inheritdoc/>
@@ -176,6 +183,7 @@ namespace Square.Models
             toStringOutput.Add($"Metadata = {(this.Metadata == null ? "null" : this.Metadata.ToString())}");
             toStringOutput.Add($"this.PickupDetails = {(this.PickupDetails == null ? "null" : this.PickupDetails.ToString())}");
             toStringOutput.Add($"this.ShipmentDetails = {(this.ShipmentDetails == null ? "null" : this.ShipmentDetails.ToString())}");
+            toStringOutput.Add($"this.DeliveryDetails = {(this.DeliveryDetails == null ? "null" : this.DeliveryDetails.ToString())}");
         }
 
         /// <summary>
@@ -192,7 +200,8 @@ namespace Square.Models
                 .Entries(this.Entries)
                 .Metadata(this.Metadata)
                 .PickupDetails(this.PickupDetails)
-                .ShipmentDetails(this.ShipmentDetails);
+                .ShipmentDetails(this.ShipmentDetails)
+                .DeliveryDetails(this.DeliveryDetails);
             return builder;
         }
 
@@ -209,6 +218,7 @@ namespace Square.Models
             private IDictionary<string, string> metadata;
             private Models.OrderFulfillmentPickupDetails pickupDetails;
             private Models.OrderFulfillmentShipmentDetails shipmentDetails;
+            private Models.OrderFulfillmentDeliveryDetails deliveryDetails;
 
              /// <summary>
              /// Uid.
@@ -299,6 +309,18 @@ namespace Square.Models
             }
 
             /// <summary>
+            /// DeliveryDetails.
+            /// </summary>
+            /// <param name="deliveryDetails"> deliveryDetails. </param>
+            /// <returns> Builder. </returns>
+            public Builder DeliveryDetails(Models.OrderFulfillmentDeliveryDetails deliveryDetails)
+            {
+                this.deliveryDetails = deliveryDetails;
+                return this;
+            }
+
+
+            /// <summary>
             /// Builds class object.
             /// </summary>
             /// <returns> OrderFulfillment. </returns>
@@ -312,7 +334,8 @@ namespace Square.Models
                     this.entries,
                     this.metadata,
                     this.pickupDetails,
-                    this.shipmentDetails);
+                    this.shipmentDetails,
+                    this.deliveryDetails);
             }
         }
     }
